@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style type="text/css">
+#container {width: 800px; margin: 40px auto;border:1px solid #333; position: relative; height: 20px}
+.move {width: 20px; height: 20px; background: red; position:absolute; left: 0; top: 0}
+#roadmap {
+	width: 800px;
+	background: #606060;
+	height: 400px;
+	margin: 0 auto;
+	position: relative;
+}
+.point {
+	position: absolute;
+	width: 2px;
+	height: 2px;
+	overflow: hidden;
+	font-size: 0;
+	background: #fff;
+}
+p {width: 800px; margin: 0 auto;}
+.t {
+	position: absolute;
+	color: #fff;
+	font-size: 12px;
+	left: 10px;
+	top: 6px;
+}
+.s {
+	position: absolute;
+	color: #fff;
+	font-size: 12px;
+	left: 740px;
+	top: 380px;
+}
+</style>
+</head>
+
+<body>
+<div id="container">
+	<div id="move" class="move" style="left:0; top:0"></div>
+</div>
+
+<div id="roadmap">
+<span class="t">t(时间)</span>
+<span class="s">s(位移)</span>
+
+</div>
+<p><input type="button" id="btn" value="Start" /></p>
+<script type="text/javascript">
+window.requestAnimationFrame = this.requestAnimationFrame =  (function() {
+  return window.requestAnimationFrame ||
+		 window.webkitRequestAnimationFrame ||
+		 window.mozRequestAnimationFrame ||
+		 window.oRequestAnimationFrame ||
+		 window.msRequestAnimationFrame ||
+		 function(/* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
+		   window.setTimeout(callback, 1000/60);
+		 };
+})();
+	
+
+var $ = function(id){
+	return document.getElementById(id);
+};
+var times = 0;
+var move = $('move');
+var move2 = $('move2');
+var dotWrap = $('roadmap');
+var max = $('container').clientWidth - 20;
+var doneLeft = 0;
+function loop(){
+	var nowLeft = parseInt(move.style.left);
+	move.style.left = nowLeft + Math.ceil((max - nowLeft) *0.015) + 'px';
+	drawDot(nowLeft);
+	if(nowLeft >= max){
+		return;
+	}
+	window.requestAnimationFrame(loop);
+};
+//loop();
+//draw dot
+var doneTime = 0;
+function drawDot(x){
+	var div = document.createElement('div');
+	div.className = 'point';
+	div.style.left = x + 'px';
+	doneTime += 60/1000;
+	div.style.top = 398 - doneTime*20 + 'px';
+	dotWrap.appendChild(div);
+};
+
+
+//rebuild
+(function(){
+var looper = null;
+	function Loop(fn){
+		this.keepUpdating = true;
+		this.lastLoopTime = new Date();
+		this.callback = fn;
+		this.start();
+	};
+	Loop.prototype = {
+		start:function(){
+			var me = this;
+			function loop(){
+				if(!me.keepUpdating){
+					return;
+				}
+				var time = new Date();
+				var dt = (time - me.lastLoopTime)/1000;
+				if(dt > 3){
+					dt = 0.25;
+				}
+				console.log('start');
+				me.callback.call(this,dt);
+				requestAnimationFrame(loop);
+				me.lastLoopTime = time;
+			};
+			loop();
+		},
+		stop:function(){
+			this.keepUpdating = false;
+		},
+		resume:function(){
+			this.keepUpdating = true;
+			this.lastLoopTime = new Date();
+			this.start();
+		}
+	};
+	
+	//绘制曲线
+	var st = 0;  //记录已经花了多长时间
+	function drawDot(dt,x){
+		st += dt;
+		var div = document.createElement('div');
+		div.className = 'point';
+		div.style.left = x + 'px';
+		div.style.top = 398 - st*80 + 'px';
+		dotWrap.appendChild(div);
+	};
+	
+	function step(dt){
+		var nowLeft = parseInt(move.style.left);
+		var diff = max - nowLeft,
+			step = Math.ceil(diff*0.015);
+
+		move.style.left = nowLeft + step + 'px';
+		if(nowLeft >= max){
+			looper.stop();
+		}
+		//绘制曲线图
+		drawDot(dt,nowLeft);
+	};
+	var btn = $('btn');
+	
+	btn.addEventListener('click',function(){
+		st = 0;
+		looper = new Loop(step);
+		btn.disabled = true;
+	},false);	
+})();
+
+
+
+
+
+</script>
+</body>
+</html>

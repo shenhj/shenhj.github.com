@@ -1,0 +1,57 @@
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<style type="text/css">
+.dot {
+    position: absolute;
+    width:1px;
+    height: 1px;
+    overflow: hidden;
+    font-size:0;
+    line-height: 0;
+    background: #333;
+}
+	</style>
+</head>
+<body>
+	<div style="width:800px;height:300px;border:2px solid #5c5c5c;margin:0 auto;position:relative" id="box"></div>
+	<script type="text/javascript">
+		var box = document.getElementById('box');
+		
+		box.addEventListener('click',function(e){
+			var disX = e.clientX + document.documentElement.scrollLeft - box.offsetLeft - box.clientWidth/2;
+			var disY = e.clientY + document.documentElement.scrollTop - box.offsetTop - box.clientHeight/2;
+			var dist = Math.pow( disX/100,2) + Math.pow(disY / 80,2);
+			console.log(dist);
+			if(dist < 1){
+				alert('椭圆被点中了');
+			}
+		},false);
+
+		//draw elipse
+		(function drawElipse(box){
+			var docFrag = document.createDocumentFragment();
+			for(var i =0;i<360;i++){
+				var pointer = document.createElement('div');
+				pointer.className = 'dot';
+
+
+				var l = 100*Math.sin(i) + (box.offsetWidth -4)/2,
+					t = 80*Math.cos(i) + (box.offsetHeight -4)/2;
+
+				pointer.style.left = l + 'px';
+				pointer.style.top = t + 'px';
+
+				docFrag.appendChild(pointer);
+			}
+
+			box.appendChild(docFrag);
+		})(box);
+
+
+
+
+	</script>
+</body>
+</html>

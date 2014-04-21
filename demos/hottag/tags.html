@@ -1,0 +1,174 @@
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8" />
+	<style type="text/css">
+		body,ul,li,img{
+			margin:0;
+			padding:0;
+		}
+		ul,li{
+			list-style: none;
+		}
+		.hottag{
+			width:1048px;
+			height: 308px;
+			position: relative;
+			margin: 0 auto;
+			margin-top: 30px;
+			box-shadow: 1px 1px 31px #000
+		}
+		.hottag li{
+			
+			position: absolute;
+			-webkit-transition:all 0.3s;
+			text-align: center;
+			color:#fff;
+			font-family: '雅黑';
+			font-size:20px;
+			overflow: hidden;
+
+		}
+		.hottag li span{
+			display: inline-block;
+			padding: 10px;
+			padding-top: 18px;
+		}
+		.hottag li img{
+			width: 100%;
+			height:100%;
+		}
+		.hottag .unit-1-2,.hottag .unit-2-1{
+			font-size: 34px;
+		}
+		.hottag .unit-2-2{
+			font-size: 50px;
+		}
+		.reflash-btn{
+			border-radius: 4px;
+			background: -webkit-linear-gradient(top,#fff,#ebebeb);
+			border: 1px solid #999;
+			padding: 8px;
+			position: absolute;
+			top: 0;
+			right: 0;
+			cursor: pointer;
+		}
+
+	</style>
+</head>
+<body>
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+	<script type="text/javascript">
+		
+		var datasArr = [
+			'http://timg01.baidu-img.cn/timg?tc&size=c378_m272&sec=0&quality=100&di=d05255e1c50bace58d1b6280724ff81d&src=http%3A%2F%2Fimg1.gtimg.com%2Fauto%2Fpics%2Fhv1%2F141%2F60%2F1447%2F94106616.jpg',
+			'中国国际商用车展',
+			"新能源汽车补贴",
+			'库存指数降至警戒线',
+			'奥迪贴牌大众up',
+			'皇冠为华推加长版',
+			'公车停驶',
+			'北京奔驰glk260',
+			'京161万人摇号购车',
+			'比亚迪秦将上市',
+			'新能源政策模糊',
+			'丰田86版轿车',
+			'土豪跑车',
+			'松下获特斯拉大单',
+			'瑞虎5将下线',
+			'上海车牌拍卖',
+			'http://timg01.baidu-img.cn/timg?tc&size=c378_m272&sec=0&quality=100&di=df75dde973b30fa49633103fea0b8ecd&src=http%3A%2F%2Fgb.cri.cn%2Fmmsource%2Fimages%2F2013%2F10%2F31%2Fcd5af2a9892944f3af9935122bd1ae13.jpg',
+			'http://timg01.baidu-img.cn/timg?tc&size=c184_m272&sec=0&quality=100&di=9821e3b873db630767494d738149ff6d&src=http%3A%2F%2Fent.southcn.com%2F8%2Fimages%2Fattachement%2Fjpg%2Fsite4%2F20131031%2F29%2F12831916456501889561.jpg',
+			'http://timg01.baidu-img.cn/timg?tc&size=c378_m272&sec=0&quality=100&di=f6df4dbb23a5a9f6c7ccca8d1c4d58b1&src=http%3A%2F%2Fgb.cri.cn%2Fmmsource%2Fimages%2F2013%2F10%2F31%2F73%2F11133912570585783553.jpg',
+			'http://timg01.baidu-img.cn/timg?tc&size=c378_m272&sec=0&quality=100&di=ce8d5207ff9b19860b6330019792ba29&src=http%3A%2F%2Fimg5.iqilu.com%2Fc%2Fu%2F2013%2F1031%2F1383208164986.jpg',
+			'http://timg01.baidu-img.cn/timg?tc&size=c378_m272&sec=0&quality=100&di=df5a6cdbcb8a60c3685451004b9e432f&src=http%3A%2F%2Fi2.sinaimg.cn%2Fent%2F2013%2F1031%2FU5912P28DT20131031164652.jpg'
+		];
+		var _blocks = [[{blocksize: [2, 2],unitposi: [0, 0]}], [{blocksize: [2, 2],unitposi: [0, 0]}], [{blocksize: [1, 2],unitposi: [0, 0]}, {blocksize: [1, 2],unitposi: [1, 0]}], [{blocksize: [1, 2],unitposi: [0, 0]}, {blocksize: [1, 1],unitposi: [1, 0]}, {blocksize: [1, 1],unitposi: [1, 1]}], [{blocksize: [1, 1],unitposi: [0, 0]}, {blocksize: [1, 2],unitposi: [1, 0]}, {blocksize: [1, 1],unitposi: [0, 1]}], [{blocksize: [2, 1],unitposi: [0, 0]}, {blocksize: [1, 1],unitposi: [0, 1]}, {blocksize: [1, 1],unitposi: [1, 1]}], [{blocksize: [1, 1],unitposi: [0, 0]}, {blocksize: [1, 1],unitposi: [1, 0]}, {blocksize: [2, 1],unitposi: [0, 1]}], [{blocksize: [1, 1],unitposi: [0, 0]}, {blocksize: [1, 1],unitposi: [1, 0]}, {blocksize: [1, 1],unitposi: [0, 1]}, {blocksize: [1, 1],unitposi: [1, 1]}]];
+
+
+		var backgroundColor = [
+			'#3c90f3','#c6395f','#125ccb','#17a2b7'
+		];
+		var _unitWidth = 131;
+		var _unitHeight = 77;
+		var _col = 2;
+		var _rol = 4;
+		
+		function setPos(){
+			var k = 0;
+			var _pos = [];
+			for(var i=0;i<_col;i++){
+				for(var j = 0;j<_rol;j++){
+					var m = i*_rol + j;
+					var _left = j*_unitWidth*2;
+					var _top = i*_unitHeight*2;
+					//console.log(_left,_top);
+					_blocks[m].forEach(function(item){
+						_pos[k] = _pos[k] || {};
+						_pos[k].width = (item.blocksize[0]) *_unitWidth; 
+						_pos[k].height = (item.blocksize[1]) *_unitHeight; 
+						_pos[k].left = _left + item.unitposi[0]*_unitWidth;
+						_pos[k].top = _top + item.unitposi[1]*_unitHeight;
+						_pos[k].background = backgroundColor[Math.floor(Math.random()*4)];
+						_pos[k].className = 'unit-' + item.blocksize[0] + '-' + item.blocksize[1];
+						k++;
+					});
+					
+				}
+			}
+			return _pos;
+		};
+		var _pos = setPos();
+		function sortDatas(datas){
+			var datas = datas.sort(function(){
+				return Math.random() > 0.5 ? -1 : 1;
+			});
+			return datas;
+		};
+
+		
+		function render(_pos){
+			var datas = sortDatas(datasArr);
+			var html = [];
+			_pos.forEach(function(item,i){
+				console.log(datas[i]);
+				html.push('<li class="'+ item.className +'" style="top:'+ item.top +'px;left:'+ item.left +'px;width:'+ 
+				item.width	+'px;height:'+ item.height +'px;background:'+ item.background +';">'+
+					(datas[i] ? (datas[i].indexOf('http://') > -1 ? '<img src="'+ datas[i] +'" />' : '<span>' + datas[i] + '</span>' ): '')
+			    +'</li>');
+			});
+			var $ul = $('<ul class="hottag"/>');
+			$ul.html(html.join(''));
+			$(document.body).append($ul);
+		};
+		render(_pos);
+		
+
+		var $reflash = $('<div class="reflash-btn"/>').html('刷新');
+		$(document.body).append($reflash);
+		$reflash.on('click',function(){
+			console.log('click');
+			_blocks = _blocks.sort(function(){
+				return Math.random() > 0.5 ? 1 : -1;
+			});
+			var _pos2 = setPos();
+			var $lis = $('li');
+			_pos2.forEach(function(item,i){
+				$($lis[i]).css({
+					left:item.left + 'px',
+					top:item.top + 'px',
+					width:item.width + 'px',
+					height:item.height + 'px',
+					background:item.background
+				});
+				$lis[i].className = item.className;
+				console.log()
+			});
+
+		});
+
+
+	</script>
+</body>
+</html>
